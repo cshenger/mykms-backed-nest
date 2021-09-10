@@ -14,22 +14,21 @@ export class OperationService {
     const key = await this.thekeysModel.findOne({ where: { id: params.theKey } });
     let result = "";
 
-    if (params.way == '1') {
-      // 加密
-      result = await keyWrite(key, params.inputer);
-    } else if (params.way == '0') {
-      // 解密
-      result = await decipherKey(key, params.inputer);
-    }
-
-    if (!result) {
+    try {
+      if (params.way == '1') {
+        // 加密
+        result = await keyWrite(key, params.inputer);
+      } else if (params.way == '0') {
+        // 解密
+        result = await decipherKey(key, params.inputer);
+      }
+      return result;
+    } catch (err) {
       return {
         code: 4001,
         success: false,
         message: '操作失败'
       }
     }
-
-    return result;
   }
 }
